@@ -1,20 +1,24 @@
 package com.ecommerce.ProductService.models.enums;
 
-import com.ecommerce.ProductService.models.Accessory;
-import com.ecommerce.ProductService.models.Clothing;
-import com.ecommerce.ProductService.models.Product;
+import com.ecommerce.ProductService.services.factory.AccessoryFactory;
+import com.ecommerce.ProductService.services.factory.ClothingFactory;
+import com.ecommerce.ProductService.services.factory.ProductFactory;
 
 public enum ProductCategory {
-    CLOTHING(Clothing.class),
-    ACCESSORY(Accessory.class);
+    CLOTHING(ClothingFactory.class),
+    ACCESSORY(AccessoryFactory.class);
 
-    private final Class<? extends Product> productClass;
+    private final Class<? extends ProductFactory> factoryClass;
 
-    ProductCategory(Class<? extends Product> productClass) {
-        this.productClass = productClass;
+    ProductCategory(Class<? extends ProductFactory> factoryClass) {
+        this.factoryClass = factoryClass;
     }
 
-    public Class<? extends Product> getProductClass() {
-        return productClass;
+    public ProductFactory getFactoryInstance() {
+        try {
+            return factoryClass.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot instantiate factory for: " + this.name(), e);
+        }
     }
 }

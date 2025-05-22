@@ -73,7 +73,8 @@ public class PaymentService {
         payment = paymentRepository.save(payment);
 
         try {
-            PaymentStrategy strategy = paymentStrategyFactory.createPaymentStrategy(userId, token, method, paymentDetails);
+            PaymentStrategyFactory factory = method.getFactoryInstance();
+            PaymentStrategy strategy = factory.createPaymentStrategy(userId, token, paymentDetails);
 
             boolean isSuccessful = strategy.processPayment(amount);
 

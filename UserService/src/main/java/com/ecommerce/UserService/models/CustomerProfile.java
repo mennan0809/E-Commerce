@@ -24,6 +24,18 @@ public class CustomerProfile extends User {
         this.wallet = 0.0;
     }
 
+    public static CustomerProfile create(CustomerProfile data) {
+        CustomerProfile customer = new CustomerProfile();
+        customer.setUsername(data.getUsername());
+        customer.setEmail(data.getEmail());
+        customer.setPassword(data.getPassword());
+        customer.setShippingAddress(data.getShippingAddress());
+        customer.setPhoneNumber(data.getPhoneNumber());
+        customer.setWallet(0.0);
+        customer.setRole("CUSTOMER");
+        return customer;
+    }
+
     // Getters and Setters
     public String getShippingAddress() {
         return shippingAddress;

@@ -13,6 +13,7 @@ import com.ecommerce.ProductService.services.factory.ProductFactory;
 import com.ecommerce.ProductService.services.observer.ProductSubject;
 import com.ecommerce.ProductService.services.observer.StockAlertObserver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.aggregation.ConditionalOperators;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -65,7 +66,10 @@ public class ProductService {
                 throw new IllegalArgumentException("Product with name '" + name + "' already exists for this merchant.");
             }
 
-            Product newProduct = ProductFactory.createProduct(category,merchantId,input);
+            ProductFactory factory = category.getFactoryInstance();
+
+            Product newProduct = factory.createProduct(merchantId, input);
+
             productRepository.save(newProduct);
             return newProduct;
         } catch (Exception e) {

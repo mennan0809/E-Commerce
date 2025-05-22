@@ -53,7 +53,8 @@ public class UserService {
     // REGISTRATION
     @Transactional
     public User registerUser(UserRole role, Object userData) {
-        User user = userFactory.createUser(role, userData);
+        UserFactory factory = role.getFactoryInstance();
+        User user = factory.create(userData);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEmailVerificationToken(UUID.randomUUID().toString());
         userRepository.save(user);

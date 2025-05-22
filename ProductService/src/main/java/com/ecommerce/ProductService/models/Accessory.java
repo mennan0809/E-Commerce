@@ -18,22 +18,13 @@ public class Accessory extends Product {
 
     public static Accessory create(long merchantId, Map<String, Object> input) {
         Accessory accessory = new Accessory();
-
-        // Set common attributes
-        accessory.setMerchantId(merchantId);
-        accessory.setName((String) input.get("name"));
-        accessory.setPrice((Double) input.get("price"));
-        accessory.setBrand((String) input.get("brand"));
-        accessory.setColor((String) input.get("color"));
-        accessory.setStockLevel((input.get("stockLevel") != null) ? (Integer) input.get("stockLevel") : 0);
-
-        // Set accessory-specific details
+        accessory.setCommonAttributes(input, merchantId);
         accessory.setType((String) input.get("type"));
         accessory.setMaterial((String) input.get("material"));
         accessory.setUnisex((input.get("isUnisex") != null) ? (Boolean) input.get("isUnisex") : false);
-
         return accessory;
     }
+
     // Accessory-specific setters
     public void setDetails(String type, String material, boolean isUnisex) {
         this.type = type;

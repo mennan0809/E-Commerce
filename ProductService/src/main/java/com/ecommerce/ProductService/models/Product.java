@@ -3,6 +3,8 @@ package com.ecommerce.ProductService.models;
 
 import jakarta.persistence.*;
 
+import java.util.Map;
+
 @Entity
 @Table(name = "products")
 
@@ -32,14 +34,15 @@ public class Product {
     }
 
     // common setters
-    public void setCommonAttributes(String name, double price, String brand, String color, Long merchantId, int stockLevel) {
-        this.name = name;
-        this.price = price;
-        this.brand = brand;
-        this.color = color;
+    public void setCommonAttributes(Map<String, Object> input, long merchantId) {
         this.merchantId = merchantId;
-        this.stockLevel = stockLevel;
+        this.name = (String) input.get("name");
+        this.price = (Double) input.get("price");
+        this.brand = (String) input.get("brand");
+        this.color = (String) input.get("color");
+        this.stockLevel = (input.get("stockLevel") != null) ? (Integer) input.get("stockLevel") : 0;
     }
+
 
     public Long getMerchantId() {
         return merchantId;
